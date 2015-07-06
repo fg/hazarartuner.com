@@ -74,10 +74,8 @@ doctrine:
 #        auto_mapping: true
         entity_managers:
             default:
-                mappings:
-                    ApplicationSonataUserBundle: ~
-                    SonataUserBundle: ~
-                    FOSUserBundle: ~
+              auto_mapping: true
+              mappings: ~
 
 # Swiftmailer Configuration
 swiftmailer:
