@@ -34,8 +34,7 @@ class Tag
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Application\Bundles\PostBundle\Entity\Post", inversedBy="tags")
-     * @ORM\JoinTable(name="post_tag")
+     * @ORM\ManyToMany(targetEntity="Application\Bundles\PostBundle\Entity\Post")
      **/
     private $posts;
 
@@ -94,7 +93,7 @@ class Tag
     }
 
     public function removePost(Post $post){
-        $this->posts->remove($post);
+        $this->posts->removeElement($post);
 
         return $this;
     }

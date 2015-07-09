@@ -41,7 +41,7 @@ class PostAdmin extends Admin
                 'choices' => $this->typeList
             ))
             ->add('tags', 'sonata_type_model', array(
-                'class' => 'PostBundle:Tag',
+//                'class' => 'PostBundle:Tag',
                 'multiple' => true,
                 'expanded' => true
             ))
@@ -74,21 +74,5 @@ class PostAdmin extends Admin
         $author = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
         $post->setAuthor($author);
-
-        $tags = $post->getTags();
-
-        foreach($tags as $tag){
-            $tag->addPost($post);
-        }
-    }
-
-    public function preUpdate($post){
-
-
-        $tags = $post->getTags();
-
-        foreach($tags as $tag){
-            $tag->addPost($post);
-        }
     }
 }

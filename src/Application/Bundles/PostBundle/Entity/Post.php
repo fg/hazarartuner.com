@@ -123,7 +123,7 @@ class Post
     private $viewCount;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Application\Bundles\PostBundle\Entity\Tag", mappedBy="posts")
+     * @ORM\ManyToMany(targetEntity="Application\Bundles\PostBundle\Entity\Tag")
      **/
     private $tags;
 
@@ -338,7 +338,7 @@ class Post
      * @return Post
      */
     public function removeTag($tag){
-        $this->tags->remove($tag);
+        $this->tags->removeElement($tag);
 
         return $this;
     }
@@ -369,5 +369,9 @@ class Post
     /** @ORM\PreUpdate() */
     public function preUpdate(){
         $this->setLastUpdatedTime(new \DateTime());
+    }
+
+    public function __toString(){
+        return $this->getTitle();
     }
 }
