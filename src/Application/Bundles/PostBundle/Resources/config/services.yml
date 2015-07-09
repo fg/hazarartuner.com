@@ -11,3 +11,13 @@ services:
             - ~
             - Application\Bundles\PostBundle\Entity\Post
             - ~
+
+    application.post.admin.tag:
+        class: Application\Bundles\PostBundle\Admin\TagAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Yazılar", label: "Etiketler" }
+
+        arguments:
+            - ~
+            - Application\Bundles\PostBundle\Entity\Tag
+            - ~

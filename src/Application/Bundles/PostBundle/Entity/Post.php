@@ -2,13 +2,16 @@
 
 namespace Application\Bundles\PostBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\EventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Post
  *
- * @ORM\Table("mha_post")
+ * @ORM\Table("post")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Post
 {
@@ -48,6 +51,9 @@ class Post
         ];
     }
 
+    public function __construct(){
+        $this->tags = new ArrayCollection();
+    }
 
     /**
      * @var integer
@@ -82,8 +88,7 @@ class Post
     /**
      * @var integer
      *
-     * @ORM\Column(name="author", type="integer")
-     * @ORM\ManyToMany(targetEntity="Application\Sonata\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="author", referencedColumnName="id")
      *
      */
@@ -116,6 +121,11 @@ class Post
      * @ORM\Column(name="view_count", type="integer", nullable=true)
      */
     private $viewCount;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Application\Bundles\PostBundle\Entity\Tag", mappedBy="posts")
+     **/
+    private $tags;
 
 
     /**
@@ -310,5 +320,54 @@ class Post
     public function getViewCount()
     {
         return $this->viewCount;
+    }
+
+
+    /**
+     * @param Tag $tag
+     * @return Post
+     */
+    public function addTag($tag){
+        $this->tags->add($tag);
+
+        return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     * @return Post
+     */
+    public function removeTag($tag){
+        $this->tags->remove($tag);
+
+        return $this;
+    }
+
+    /**
+     * @param Tag[] $tags
+     * @return Post
+     */
+    public function setTags($tags){
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getTags(){
+        return $this->tags;
+    }
+
+    /** @ORM\PrePersist() */
+    public function prePersist(){
+        $this->setCreatedTime(new \DateTime());
+        $this->setLastUpdatedTime(new \DateTime());
+    }
+
+    /** @ORM\PreUpdate() */
+    public function preUpdate(){
+        $this->setLastUpdatedTime(new \DateTime());
     }
 }

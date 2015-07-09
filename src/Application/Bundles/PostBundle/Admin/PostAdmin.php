@@ -34,17 +34,17 @@ class PostAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $author = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
-
         $formMapper
             ->add('title', 'text', array('label' => 'Başlık'))
             ->add('body', 'textarea', array('label' => 'İçerik'))
-            ->add('author', 'hidden', array('data' => $author->getId()))
             ->add('type', 'choice', array(
                 'choices' => $this->typeList
             ))
-            ->add('createdTime', null, array('data' => new \DateTime()))
-            ->add('lastUpdatedTime', null, array('data' => new \DateTime()))
+            ->add('tags', 'sonata_type_model', array(
+                'class' => 'PostBundle:Tag',
+                'multiple' => true,
+                'expanded' => true
+            ))
             ->add('body') //if no type is specified, SonataAdminBundle tries to guess it
             ->add('status', 'choice', array(
                 'choices' => $this->statusList
@@ -68,5 +68,27 @@ class PostAdmin extends Admin
             ->addIdentifier('title')
             ->add('author')
         ;
+    }
+
+    public function prePersist($post){
+        $author = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+
+        $post->setAuthor($author);
+
+        $tags = $post->getTags();
+
+        foreach($tags as $tag){
+            $tag->addPost($post);
+        }
+    }
+
+    public function preUpdate($post){
+
+
+        $tags = $post->getTags();
+
+        foreach($tags as $tag){
+            $tag->addPost($post);
+        }
     }
 }
