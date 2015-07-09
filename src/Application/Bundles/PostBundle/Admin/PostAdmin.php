@@ -40,14 +40,16 @@ class PostAdmin extends Admin
             ->add('type', 'choice', array(
                 'choices' => $this->typeList
             ))
-            ->add('tags', 'sonata_type_model', array(
-//                'class' => 'PostBundle:Tag',
-                'multiple' => true,
-                'expanded' => true
-            ))
-            ->add('body') //if no type is specified, SonataAdminBundle tries to guess it
+            ->add('body')
             ->add('status', 'choice', array(
                 'choices' => $this->statusList
+            ))
+            ->end()
+            ->with("Etiketler")
+            ->add('tags', 'sonata_type_model', array(
+                'multiple' => true,
+                'expanded' => true,
+                'label' => ''
             ))
         ;
     }
