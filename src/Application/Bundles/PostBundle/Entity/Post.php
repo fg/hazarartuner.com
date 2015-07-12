@@ -136,6 +136,13 @@ class Post
      **/
     private $tags;
 
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Bundles\PostBundle\Entity\Category")
+     */
+    private $category;
+
 
     /**
      * Get id
@@ -398,5 +405,28 @@ class Post
 
     public function __toString(){
         return $this->getTitle();
+    }
+
+    /**
+     * Set category
+     *
+     * @param \Application\Bundles\PostBundle\Entity\Category $category
+     * @return Post
+     */
+    public function setCategory(\Application\Bundles\PostBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Application\Bundles\PostBundle\Entity\Category 
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

@@ -39,6 +39,7 @@ class PostAdmin extends Admin
                 'provider' => 'sonata.media.provider.image',
                 'required' => false
             ))
+            ->add('category', 'sonata_type_model', array('property'=>'name'))
             ->add('title', 'text', array('label' => 'Başlık'))
             ->add('body', 'textarea', array('label' => 'İçerik'))
             ->add('type', 'choice', array(
