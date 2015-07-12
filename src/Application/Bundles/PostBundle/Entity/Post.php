@@ -2,9 +2,11 @@
 
 namespace Application\Bundles\PostBundle\Entity;
 
+use Application\Sonata\MediaBundle\Entity\Media;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\EventArgs;
 use Doctrine\ORM\Mapping as ORM;
+use Sonata\MediaBundle\Model\MediaInterface;
 
 /**
  * Post
@@ -63,6 +65,13 @@ class Post
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var \Application\Sonata\MediaBundle\Entity\Media
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY")
+     */
+    protected $image;
+
 
     /**
      * @var string
@@ -358,6 +367,22 @@ class Post
      */
     public function getTags(){
         return $this->tags;
+    }
+
+    /**
+     * @param MediaInterface $media
+     */
+    public function setImage(MediaInterface $image)
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @return MediaInterface
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 
     /** @ORM\PrePersist() */

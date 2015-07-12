@@ -35,6 +35,10 @@ class PostAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
+            ->add('image', 'sonata_media_type', array(
+                'provider' => 'sonata.media.provider.image',
+                'required' => false
+            ))
             ->add('title', 'text', array('label' => 'Başlık'))
             ->add('body', 'textarea', array('label' => 'İçerik'))
             ->add('type', 'choice', array(
