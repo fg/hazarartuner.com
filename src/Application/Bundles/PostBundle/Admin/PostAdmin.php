@@ -41,7 +41,7 @@ class PostAdmin extends Admin
             ))
             ->add('category', 'sonata_type_model', array('property'=>'name'))
             ->add('title', 'text', array('label' => 'Başlık'))
-            ->add('body', 'textarea', array('label' => 'İçerik'))
+            ->add('body', 'sonata_formatter_type', array('label' => 'İçerik'))
             ->add('type', 'choice', array(
                 'choices' => $this->typeList
             ))
